@@ -7,4 +7,8 @@ const TotalTable = ({
   currencyExchengeRates,
   onPayClick,
   diets,
-}) => {};
+}) => {
+  
+};
+
+export default TotalTable;
