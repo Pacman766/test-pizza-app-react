@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './app.scss';
 
 function App() {
   const [error, setError] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+  const [onceLoaded, setOnceLoaded] = useState(false);
+  const [allPeople, setAllPeople] = useState(0);
+  const [diet, setDiet] = useState([]);
+  const [orderDetails, setOrderDetails] = useState({});
+  const [currencyExchageRates, setCurrencyExchageRates] = useState({});
 
   const fetchGuests = async () => {
     try {
@@ -37,11 +43,67 @@ function App() {
     }
   };
 
-  const people = [
-    { name: 'Anton Chehov', isVegan: true },
-    { name: 'Vladimir Pushkin', isVegan: false },
-  ];
-  fetchDiets(people);
+  const fetchPizzaOrder = async (pizzaType, sliceCount) => {
+    try {
+      const response = await fetch(
+        `https://gp-js-test.herokuapp.com/pizza/order/${pizzaType}${sliceCount}`
+      );
+      return await response.json();
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
+  const fetchCurrency = async () => {
+    try {
+      const response = await fetch(
+        `https://gp-js-test.herokuapp.com/pizza/currency`
+      );
+      return await response.json();
+    } catch (error) {
+      setError(error);
+      throw error;
+    }
+  };
+
+  const handleClick = async () => {
+    try {
+      setIsLoading(true);
+
+      const guests = await fetchGuests();
+      setAllPeople(guests);
+      const pizzaEater = guests.filter((guest) => guest.eatsPizza);
+
+      const diets = await fetchDiets(pizzaEater);
+      setDiet(diets.map((diet) => ({ ...diet, Paid: false })));
+      const vegans = diets.filter((diet) => diet.isVegan);
+
+      let pizzaType = '';
+
+      if (vegans / pizzaEater >= 0.51) {
+        const pizzaWothoutMeat = ['cheese', 'vegan'];
+        pizzaType =
+          pizzaWothoutMeat[Math.floor(Math.random() * pizzaWothoutMeat.length)];
+      } else {
+        pizzaType = 'meat';
+      }
+
+      const [orderdetails, currencyExchangeRates] = await Promise.all([
+        fetchPizzaOrder(pizzaType, pizzaEater.length),
+        fetchCurrency(),
+      ]);
+      setCurrencyExchageRates(currencyExchageRates);
+      setOrderDetails(orderDetails);
+      if (!onceLoaded) {
+        setOnceLoaded(true);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return <div className="App"></div>;
 }
