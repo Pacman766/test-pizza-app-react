@@ -1,0 +1,54 @@
+table {
+  background-color: #fff;
+  border: 2px solid #000;
+  width: 50vw;
+  height: auto;
+}
+
+thead {
+  tr {
+    th {
+      background-color: #0000005b;
+      font-size: 25px;
+      border-width: 3px;
+      color: #000;
+    }
+  }
+}
+
+td {
+  border: 1px solid #000;
+  padding: 3px;
+  font-size: 20px;
+
+  & .btn-pay {
+    font-size: 18px;
+    font-weight: 400;
+    padding: 10px 25px;
+    border-radius: 10px;
+    margin: 10px auto;
+  }
+}
+
+.col1 {
+  width: 50%;
+}
+
+.col2 {
+  width: 30%;
+}
+
+.col3 {
+  width: 20%;
+}
+
+.vegan {
+  color: #3ca727;
+}
+
+.final_sums {
+  background-color: #0000005b;
+  font-size: 1.3rem;
+  border-width: 3px;
+  color: #000;
+}

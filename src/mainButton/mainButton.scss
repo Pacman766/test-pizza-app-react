@@ -1,0 +1,25 @@
+button {
+  font-size: 22px;
+  font-weight: 700;
+  padding: 15px 45px;
+  border-radius: 100px;
+  -webkit-box-shadow: 0px 5px 0px 0px #0000008a;
+  box-shadow: 0px 5px 0px 0px #0000008a;
+  margin-bottom: 50px;
+  position: relative;
+
+  &:active,
+  &:hover {
+    background-color: #30e8bf;
+    -webkit-box-shadow: 0px 2px 0px 0px #0000008a;
+    box-shadow: 0px 2px 0px 0px #0000008a;
+    top: 3px;
+  }
+  &:disabled {
+    background: #30e8bf;
+    border-color: #413e40;
+    -webkit-box-shadow: 0px 2px 0px 0px #0000008a;
+    box-shadow: 0px 2px 0px 0px #0000008a;
+    top: 3px;
+  }
+}

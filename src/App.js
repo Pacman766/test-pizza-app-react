@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Header from './header/Header';
+import MainButton from './mainButton/MainButton';
 
 import './app.scss';
 
@@ -76,7 +78,7 @@ function App() {
       const pizzaEater = guests.filter((guest) => guest.eatsPizza);
 
       const diets = await fetchDiets(pizzaEater);
-      setDiet(diets.map((diet) => ({ ...diet, Paid: false })));
+      setDiet(diets.map((diet) => ({ ...diet, hasPaid: false })));
       const vegans = diets.filter((diet) => diet.isVegan);
 
       let pizzaType = '';
@@ -105,7 +107,21 @@ function App() {
     }
   };
 
-  return <div className="App"></div>;
+  const handlePayClick = (name) => {
+    setDiet((diets) => {
+      const dietsCopy = [...diets];
+      const index = dietsCopy.findIndex((diet) => diet.name === name);
+      dietsCopy[index].hasPaid = true;
+      return dietsCopy;
+    });
+  };
+
+  return (
+    <div className="App">
+      <Header />
+      <MainButton />
+    </div>
+  );
 }
 
 export default App;
