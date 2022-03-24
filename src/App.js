@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from './header/Header';
 import MainButton from './mainButton/MainButton';
+import TotalTable from './totalTable/TotalTable';
 
 import './app.scss';
 
@@ -95,8 +96,8 @@ function App() {
         fetchPizzaOrder(pizzaType, pizzaEater.length),
         fetchCurrency(),
       ]);
-      setCurrencyExchageRates(currencyExchageRates);
-      setOrderDetails(orderDetails);
+      setCurrencyExchageRates(currencyExchangeRates);
+      setOrderDetails(orderdetails);
       if (!onceLoaded) {
         setOnceLoaded(true);
       }
@@ -119,7 +120,26 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <MainButton />
+      <MainButton onClick={handleClick} isLoading={isLoading} />
+      {!error ? (
+        <>
+          {isLoading ? (
+            <p> Waiting...</p>
+          ) : (
+            onceLoaded && (
+              <TotalTable
+                pizzaEaters={diet}
+                orderDetails={orderDetails}
+                currencyExchengeRates={currencyExchageRates}
+                diet={diet}
+                onPayClick={handlePayClick}
+              />
+            )
+          )}
+        </>
+      ) : (
+        <p> Something went wrong :( </p>
+      )}
     </div>
   );
 }
